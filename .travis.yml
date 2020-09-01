@@ -6,4 +6,18 @@ before_install:
     - docker build -t kautilya20/docker-react -f dockerfile.dev .   
 
 script:
-    - docker run -e CI=true kautilya20/docker-react npm run test   
+    - docker run -e CI=true kautilya20/docker-react npm run test
+    
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-1"
+    app: "docker-react"
+    env: "DockerReact-env"
+    bucket_name: "elasticbeanstalk-us-east-1-898431322197"
+    bucket_path: "docker-react"
+    on:
+        branch: master
+    access_key_id: $AWS_Access key
+    secret_access_key:
+        secure: "$AWS_Secret Key"    
+   
